@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Levi Rosario — Portfolio</title>
+  <meta name="description" content="Levi Rosario — Shopify, Next.js, Sanity, WordPress developer — projects & work" />
+  <style>
+    /* Reset + base */
+    :root{
+      --bg:#fafafa; --card:#fff; --accent:#111; --muted:#6b7280; --glass: rgba(255,255,255,0.65);
+      --radius:20px; --gap:20px; --max-width:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; background:linear-gradient(180deg,#fbfbfb,var(--bg)); color:var(--accent); margin:0; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+
+    .wrap{max-width:var(--max-width);margin:48px auto;padding:0 20px}
+
+    /* Header */
+    header.site-header{display:flex;align-items:center;gap:24px;margin-bottom:28px}
+    .logo{width:72px;height:72px;border-radius:16px;background:linear-gradient(180deg,#fff,#f3f3f3);display:flex;align-items:center;justify-content:center;font-weight:800;letter-spacing:1px;box-shadow:0 8px 20px rgba(17,17,17,0.06);}
+    .hero{flex:1}
+    .name{font-size:42px;line-height:1;margin:0;font-weight:800;letter-spacing:1px}
+    .desc{margin:10px 0 0;color:var(--muted)}
+
+    /* Skills */
+    .skills{margin:28px 0;display:flex;flex-wrap:wrap;gap:10px}
+    .skill{background:linear-gradient(180deg,#fff,#fcfcfc);border:1px solid rgba(16,16,16,0.04);padding:8px 12px;border-radius:999px;font-weight:600;color:#111;font-size:13px;box-shadow:0 6px 18px rgba(11,11,11,0.04)}
+
+    /* Projects header + controls */
+    .projects-header{display:flex;align-items:center;justify-content:space-between;margin:12px 0 18px;gap:12px}
+    .projects-title{font-size:18px;font-weight:700}
+    .filters{display:flex;gap:8px;align-items:center}
+    .filter-btn{background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .filter-btn.active{background:#111;color:#fff}
+
+    /* Projects grid */
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+    .project{position:relative;background:var(--card);border-radius:16px;padding:24px;height:160px;display:flex;flex-direction:column;justify-content:space-between;box-shadow: 0 8px 20px rgba(16,16,16,0.06);transition:transform .28s cubic-bezier(.2,.9,.3,1),box-shadow .28s;overflow:hidden}
+    .project:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(12,12,12,0.12)}
+
+    .project h4{margin:0;font-size:16px;letter-spacing:0.6px}
+    .project .meta{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+    .project .platform{padding:6px 8px;border-radius:8px;background:linear-gradient(180deg,#fafafa,#fff);border:1px solid rgba(0,0,0,0.04);font-weight:700}
+
+    .project a{color:inherit;text-decoration:none}
+
+    /* 3D look small accent */
+    .project::before{content:"";position:absolute;inset:auto 18px 14px 18px;height:6px;background:linear-gradient(90deg,rgba(0,0,0,0.06),transparent);border-radius:4px;transform:translateY(22px);opacity:.8}
+
+    /* Responsive */
+    @media (max-width:960px){.projects-grid{grid-template-columns:repeat(2,1fr)} .name{font-size:34px}}
+    @media (max-width:640px){.projects-grid{grid-template-columns:1fr} .name{font-size:28px} .project{height:140px;padding:18px}}
+
+    /* subtle page entrance */
+    .fade-in{opacity:0;transform:translateY(10px);animation:enter .6s forwards;}
+    .stagger{animation-delay:calc(var(--i) * 0.06s)}
+    @keyframes enter{100%{opacity:1;transform:none}}
+
+    /* footer */
+    footer{margin:48px 0 80px;color:var(--muted);text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header fade-in" style="--i:0">
+      <div class="logo">LR</div>
+      <div class="hero">
+        <h1 class="name">Levi Rosario</h1>
+        <p class="desc">Frontend/Full‑stack dev — Shopify, Next.js, Sanity CMS, WordPress. I build performant stores and integrations with clean code and practical UX for more than 3yrs.</p>
+      </div>
+    </header>
+
+    <section class="fade-in" style="--i:1">
+      <div class="skills">
+        <span class="skill">3 yrs experience</span>
+        <span class="skill">Shopify</span>
+        <span class="skill">Next.js</span>
+        <span class="skill">Sanity CMS</span>
+        <span class="skill">WordPress</span>
+        <span class="skill">APIs & Databases</span>
+      </div>
+    </section>
+
+    <section class="fade-in" style="--i:2">
+      <div class="projects-header">
+        <div class="projects-title">Selected Projects</div>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="shopify">Shopify</button>
+          <button class="filter-btn" data-filter="nextjs">Next.js / Sanity</button>
+        </div>
+      </div>
+
+      <div class="projects-grid" id="projects">
+        <!-- Each <a> is ready for your link (href="#") -->
+
+        <a class="project fade-in stagger" style="--i:3" data-platform="nextjs" href=https://www.ccdf.ch/ title="CCDF ">
+          <div>
+            <h4>CCDF </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:4" data-platform="nextjs" href="https://www.atmosnav.com/" title="Atmos ">
+          <div>
+            <h4>Atmos </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:5" data-platform="nextjs" href="https://www.supersonicship.com/" title="Supersonic ">
+          <div>
+            <h4>Supersonic </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:6" data-platform="nextjs" href="https://www.mir-capital.com/" title="Mir Capital ">
+          <div>
+            <h4>Mir Capital </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:7" data-platform="nextjs" href="https://ledgerrocket.com" title="Ledgers Rocket ">
+          <div>
+            <h4>Ledgers Rocket </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:8" data-platform="nextjs" href="https://www.topjewels.info/" title="Ninetyone group ">
+          <div>
+            <h4>Ninetyone group </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:9" data-platform="nextjs" href="https://www.jdspirits.uk/" title="JD Spirits ">
+          <div>
+            <h4>JD Spirits </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:10" data-platform="nextjs" href="#https://www.ocean-sea.com/ " title="Ocean ">
+          <div>
+            <h4>Ocean </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:11" data-platform="nextjs" href="https://www.sovamar.com/" title="Sovamar ">
+          <div>
+            <h4>Sovamar </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:12" data-platform="nextjs" href="https://www.ruthbergs.com/" title="Ruthberg ">
+          <div>
+            <h4>Ruthberg </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:13" data-platform="wordpress" href="https://berkeleytravel.co.uk/" title="Berkeley Wordpress ">
+          <div>
+            <h4>Berkeley Wordpress </h4>
+            <div class="meta"><span class="platform">WordPress</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:13" data-platform="nextjs" href="https://berkley-travel.vercel.app/" title="Berkeley react ">
+          <div>
+            <h4>Berkeley React </h4>
+            <div class="meta"><span class="platform">Nextjs</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:14" data-platform="nextjs" href="https://www.swmitchellcapital.com/" title="SWMC ">
+          <div>
+            <h4>SWMC </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:15" data-platform="nextjs" href="https://www.swmc-bridgefundservices.com/login" title="SWMC Portal ">
+          <div>
+            <h4>SWMC Portal </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launched</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:16" data-platform="nextjs" href="https://www.nohandesign.com/" title="Nohan Design ">
+          <div>
+            <h4>Nohan Design </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:17" data-platform="nextjs" href="https://www.esmovieproductions.com/" title="Ethan ">
+          <div>
+            <h4>Ethan </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:18" data-platform="nextjs" href="www.osprey-investors.com" title="Osprey ">
+          <div>
+            <h4>Osprey </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:19" data-platform="nextjs" href="https://www.singularity-group.com" title="Singularty">
+          <div>
+            <h4>Singularty </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:20" data-platform="nextjs" href="https://www.damuscapital.com/" title="Damus Capital">
+          <div>
+            <h4>Damus Capital</h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launched</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:21" data-platform="nextjs" href="https://goalsnotgigs.com" title="Goals ">
+          <div>
+            <h4>Goals </h4>
+            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launched</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:22" data-platform="upcoming" href="https://www.mresidencesbudapest.com/?" title="Marrriot - Upcoming">
+          <div>
+            <h4>Marrriot - Upcoming Full Build</h4>
+            <div class="meta"><span class="platform">Upcoming</span><span>•</span><span>Planned</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:23" data-platform="upcoming" href="https://www.profinpartners.com" title="Profin - Upcoming">
+          <div>
+            <h4>Profin - Upcoming Redesign</h4>
+            <div class="meta"><span class="platform">Upcoming</span><span>•</span><span>Planned</span></div>
+          </div>
+        </a>
+
+        <!-- additional Shopify/other projects from list -->
+        <a class="project fade-in stagger" style="--i:24" data-platform="shopify" href="https://manufacture-vendome.myshopify.com/" title="Manufacture Shopify ">
+          <div>
+            <h4>Manufacture Shopify </h4>
+            <div class="meta"><span class="platform">Shopify</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:25" data-platform="shopify" href="#" title="Sole Shopify ">
+          <div>
+            <h4>Sole Shopify </h4>
+            <div class="meta"><span class="platform">Shopify</span><span>•</span><span>In Progress</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:26" data-platform="shopify" href="https://www.isufilaw.al/" title="ISUFI ">
+          <div>
+            <h4>ISUFI </h4>
+            <div class="meta"><span class="platform">Shopify</span><span>•</span><span>Launch</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:27" data-platform="shopify" href="https://www.steinridge.com/" title="Steinridge">
+          <div>
+            <h4>Steinridge</h4>
+            <div class="meta"><span class="platform">Shopify</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:28" data-platform="shopify" href="https://www.mxstudios.com/" title="Matrix Studios">
+          <div>
+            <h4>Matrix Studios</h4>
+            <div class="meta"><span class="platform">Shopify</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:29" data-platform="shopify" href="https://www.abrahamicinvestments.com/" title="Abrahamic">
+          <div>
+            <h4>Abrahamic</h4>
+            <div class="meta"><span class="platform">Shopify</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:31" data-platform="shopify" href="https://bushhallmusic.co.uk/" title="Bush hall - shopify">
+          <div>
+            <h4>Bush hall</h4>
+            <div class="meta"><span class="platform">Shopify</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:32" data-platform="nextjs" href="https://misternicemayfair.com" title="Mr nice">
+          <div>
+            <h4>Mr nice</h4>
+            <div class="meta"><span class="platform">Shopify</span></div>
+          </div>
+        </a>
+
+        <a class="project fade-in stagger" style="--i:33" data-platform="wordpress" href="https://rocketindustries.co.uk/" title="Rocket Industries">
+          <div>
+            <h4>Rocket Industries</h4>
+            <div class="meta"><span class="platform">WordPress</span></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <footer class="fade-in" style="--i:35">Made by Levi • <a href="#">Contact</a></footer>
+  </div>
+
+  <script>
+    // Simple filtering
+    const buttons = document.querySelectorAll('.filter-btn');
+    const projects = document.querySelectorAll('.project');
+    buttons.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        projects.forEach(p=>{
+          const plat = p.dataset.platform || 'site';
+          if(f==='all' || plat===f) p.style.display='flex'; else p.style.display='none';
+        });
+      });
+    });
+
+    // make links editable: click to prompt for real URL (for quick demo)
+    document.querySelectorAll('.project').forEach(item=>{
+      item.addEventListener('click', (e)=>{
+        // allow user to set real link by holding ctrl/shift for demo
+        if(e.metaKey||e.ctrlKey){
+          e.preventDefault();
+          const old = item.getAttribute('href')||'#';
+          const url = prompt('Enter URL for this project', old);
+          if(url) item.setAttribute('href', url);
+        }
+      })
+    });
+
+    // reveal animations on load
+    window.addEventListener('load', ()=>{
+      document.querySelectorAll('.fade-in').forEach(el=>{
+        // keep existing stagger if set via --i
+        const delay = parseFloat(getComputedStyle(el).getPropertyValue('--i'))||0;
+        el.style.animationDelay = (delay*0.06)+'s';
+        el.classList.add('visible');
+      });
+    });
+  </script>
+</body>
+</html>
