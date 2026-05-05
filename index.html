@@ -3,367 +3,729 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Levi Rosario — Portfolio</title>
-  <meta name="description" content="Levi Rosario — Shopify, Next.js, Sanity, WordPress developer — projects & work" />
+  <title>Levi Rosario — Developer</title>
+  <meta name="description" content="Levi Rosario — Shopify, Next.js, Sanity, WordPress developer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    /* Reset + base */
-    :root{
-      --bg:#fafafa; --card:#fff; --accent:#111; --muted:#6b7280; --glass: rgba(255,255,255,0.65);
-      --radius:20px; --gap:20px; --max-width:1100px;
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --border: rgba(255,255,255,0.07);
+      --text: #f0ede8;
+      --muted: #6a6560;
+      --accent: #e8d5b0;
+      --accent2: #c8a96e;
+      --red: #ff4433;
+      --green: #7fff6a;
+      --radius: 4px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; background:linear-gradient(180deg,#fbfbfb,var(--bg)); color:var(--accent); margin:0; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
 
-    .wrap{max-width:var(--max-width);margin:48px auto;padding:0 20px}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Header */
-    header.site-header{display:flex;align-items:center;gap:24px;margin-bottom:28px}
-    .logo{width:72px;height:72px;border-radius:16px;background:linear-gradient(180deg,#fff,#f3f3f3);display:flex;align-items:center;justify-content:center;font-weight:800;letter-spacing:1px;box-shadow:0 8px 20px rgba(17,17,17,0.06);}
-    .hero{flex:1}
-    .name{font-size:42px;line-height:1;margin:0;font-weight:800;letter-spacing:1px}
-    .desc{margin:10px 0 0;color:var(--muted)}
+    html { scroll-behavior: smooth; }
 
-    /* Skills */
-    .skills{margin:28px 0;display:flex;flex-wrap:wrap;gap:10px}
-    .skill{background:linear-gradient(180deg,#fff,#fcfcfc);border:1px solid rgba(16,16,16,0.04);padding:8px 12px;border-radius:999px;font-weight:600;color:#111;font-size:13px;box-shadow:0 6px 18px rgba(11,11,11,0.04)}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-    /* Projects header + controls */
-    .projects-header{display:flex;align-items:center;justify-content:space-between;margin:12px 0 18px;gap:12px}
-    .projects-title{font-size:18px;font-weight:700}
-    .filters{display:flex;gap:8px;align-items:center}
-    .filter-btn{background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
-    .filter-btn.active{background:#111;color:#fff}
+    /* ── CUSTOM CURSOR ─────────────────────────── */
+    #cursor {
+      position: fixed; top: 0; left: 0; z-index: 9999;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    #cursor-dot {
+      width: 8px; height: 8px; background: #fff; border-radius: 50%;
+      position: absolute; transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, opacity .2s;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.5); border-radius: 50%;
+      position: absolute; transform: translate(-50%,-50%);
+      transition: width .3s ease, height .3s ease, transform .1s linear;
+    }
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring {
+      width: 56px; height: 56px;
+    }
 
-    /* Projects grid */
-    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    /* ── NOISE OVERLAY ─────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9998;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
 
-    .project{position:relative;background:var(--card);border-radius:16px;padding:24px;height:160px;display:flex;flex-direction:column;justify-content:space-between;box-shadow: 0 8px 20px rgba(16,16,16,0.06);transition:transform .28s cubic-bezier(.2,.9,.3,1),box-shadow .28s;overflow:hidden}
-    .project:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(12,12,12,0.12)}
+    /* ── SCROLLBAR ─────────────────────────────── */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent2); }
 
-    .project h4{margin:0;font-size:16px;letter-spacing:0.6px}
-    .project .meta{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
-    .project .platform{padding:6px 8px;border-radius:8px;background:linear-gradient(180deg,#fafafa,#fff);border:1px solid rgba(0,0,0,0.04);font-weight:700}
+    /* ── LAYOUT ────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
 
-    .project a{color:inherit;text-decoration:none}
+    /* ── NAV ───────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: border-color .4s, background .4s;
+    }
+    nav.scrolled { background: rgba(8,8,8,0.9); backdrop-filter: blur(12px); border-color: var(--border); }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; letter-spacing: 3px; color: var(--accent);
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-status {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    /* 3D look small accent */
-    .project::before{content:"";position:absolute;inset:auto 18px 14px 18px;height:6px;background:linear-gradient(90deg,rgba(0,0,0,0.06),transparent);border-radius:4px;transform:translateY(22px);opacity:.8}
+    /* ── HERO ──────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 40px 80px;
+      position: relative; overflow: hidden;
+    }
 
-    /* Responsive */
-    @media (max-width:960px){.projects-grid{grid-template-columns:repeat(2,1fr)} .name{font-size:34px}}
-    @media (max-width:640px){.projects-grid{grid-template-columns:1fr} .name{font-size:28px} .project{height:140px;padding:18px}}
+    .hero-bg-text {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(120px, 22vw, 320px);
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+      white-space: nowrap; pointer-events: none;
+      user-select: none;
+      letter-spacing: 8px;
+    }
 
-    /* subtle page entrance */
-    .fade-in{opacity:0;transform:translateY(10px);animation:enter .6s forwards;}
-    .stagger{animation-delay:calc(var(--i) * 0.06s)}
-    @keyframes enter{100%{opacity:1;transform:none}}
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 24px;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .2s forwards;
+    }
 
-    /* footer */
-    footer{
-      margin:48px 0 80px;
-      color:var(--muted);
-      text-align:center;
-      padding-bottom: 50px;
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 12vw, 160px);
+      line-height: 0.92;
+      letter-spacing: 2px;
+      overflow: hidden;
+    }
+
+    .hero-name .line {
+      display: block; overflow: hidden;
+    }
+    .hero-name .line span {
+      display: block;
+      transform: translateY(110%);
+      animation: slideUp .9s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .hero-name .line:nth-child(1) span { animation-delay: 0.3s; }
+    .hero-name .line:nth-child(2) span { animation-delay: 0.45s; }
+
+    .hero-name em {
+      font-style: normal;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1.5px var(--accent);
+    }
+
+    .hero-bottom {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-top: 48px; gap: 32px; flex-wrap: wrap;
+      opacity: 0; transform: translateY(20px);
+      animation: fadeUp .8s .8s forwards;
+    }
+
+    .hero-desc {
+      max-width: 380px;
+      font-size: 15px; line-height: 1.7; color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-desc strong { color: var(--text); font-weight: 500; }
+
+    .hero-cta {
+      display: flex; gap: 16px; align-items: center;
+    }
+    .btn-primary {
+      background: var(--accent); color: var(--bg);
+      padding: 14px 28px; border-radius: var(--radius);
+      font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; text-decoration: none; font-weight: 700;
+      transition: background .2s, transform .2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-ghost {
+      color: var(--muted); font-family: 'Space Mono', monospace; font-size: 12px;
+      letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+      transition: color .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-ghost::after { content: '→'; }
+
+    .hero-scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--muted);
+      opacity: 0; animation: fadeUp .8s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 40px; background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollDrop 1.5s 1.5s infinite;
+    }
+    @keyframes scrollDrop {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── SKILLS TICKER ─────────────────────────── */
+    .ticker-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden; padding: 16px 0;
+      background: var(--surface);
+    }
+    .ticker-track {
+      display: flex; gap: 0;
+      animation: ticker 22s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      padding: 0 32px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .ticker-item .dot { color: var(--accent2); font-size: 18px; line-height: 1; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── SECTION COMMON ────────────────────────── */
+    section { padding: 120px 0; }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--accent2); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; display: inline-block;
+      width: 32px; height: 1px; background: var(--accent2);
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 0.95; letter-spacing: 1px;
+      color: var(--text);
+    }
+
+    /* ── REVEAL ANIMATION ──────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── PROJECTS ──────────────────────────────── */
+    #projects { background: var(--bg); }
+    .projects-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px; margin-bottom: 60px;
+    }
+    .filters {
+      display: flex; gap: 8px;
+    }
+    .filter-btn {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); padding: 10px 18px; border-radius: 2px;
+      font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 2px;
+      text-transform: uppercase; cursor: none; transition: all .2s;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .project-card {
+      position: relative; overflow: hidden;
+      background: var(--surface);
+      padding: 32px;
+      min-height: 200px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      text-decoration: none; color: inherit;
+      transition: background .3s;
+      group: true;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--accent);
+      transform: translateY(100%);
+      transition: transform .4s cubic-bezier(.16,1,.3,1);
+      z-index: 0;
+    }
+    .project-card:hover::after { transform: translateY(0); }
+    .project-card:hover .card-content,
+    .project-card:hover .card-platform,
+    .project-card:hover .card-num,
+    .project-card:hover .card-arrow,
+    .project-card:hover .card-title {
+      color: var(--bg) !important;
+      border-color: rgba(0,0,0,0.15) !important;
+    }
+
+    .card-content { position: relative; z-index: 1; }
+    .card-num {
+      font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+      margin-bottom: 20px; letter-spacing: 2px; transition: color .3s;
+    }
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; letter-spacing: 1px; color: var(--text);
+      line-height: 1.1; transition: color .3s;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      position: relative; z-index: 1;
+      margin-top: 24px; padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .card-platform {
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--muted);
+      transition: color .3s, border-color .3s;
+    }
+    .card-arrow {
+      width: 32px; height: 32px; border: 1px solid var(--border);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--muted);
+      transition: transform .3s, color .3s, border-color .3s;
+    }
+    .project-card:hover .card-arrow { transform: rotate(-45deg); }
+
+    /* status badge */
+    .card-status {
+      position: absolute; top: 20px; right: 20px; z-index: 2;
+      font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px;
+      text-transform: uppercase; padding: 4px 8px;
+      border-radius: 2px;
+    }
+    .status-live { background: rgba(127,255,106,0.12); color: var(--green); }
+    .status-progress { background: rgba(232,213,176,0.1); color: var(--accent); }
+    .status-planned { background: rgba(255,68,51,0.1); color: var(--red); }
+
+    /* ── ABOUT STRIP ───────────────────────────── */
+    #about {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .about-text p {
+      font-size: 16px; line-height: 1.8; color: var(--muted); font-weight: 300;
+      margin-bottom: 20px;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .stat {
+      padding: 28px; border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px; letter-spacing: 2px; color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--muted); margin-top: 8px;
+    }
+
+    /* ── CONTACT ───────────────────────────────── */
+    #contact {
+      background: var(--bg);
+      text-align: center;
+    }
+    .contact-inner { max-width: 680px; margin: 0 auto; }
+    .contact-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 10vw, 128px);
+      line-height: 0.92; letter-spacing: 2px;
+      color: var(--text); margin: 24px 0 40px;
+    }
+    .contact-big em {
+      font-style: normal;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1.5px var(--accent);
+    }
+    .contact-links {
+      display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    }
+    .contact-link {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Space Mono', monospace; font-size: 13px; color: var(--muted);
+      text-decoration: none; letter-spacing: 1px;
+      border: 1px solid var(--border);
+      padding: 14px 24px; border-radius: var(--radius);
+      transition: all .25s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-link .icon { font-size: 16px; }
+
+    /* ── FOOTER ────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* ── KEYFRAMES ─────────────────────────────── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      to { transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ────────────────────────────── */
+    @media (max-width: 1024px) {
+      .projects-grid { grid-template-columns: repeat(2,1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      #hero { padding: 0 20px 64px; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .projects-head { flex-direction: column; align-items: flex-start; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+      .nav-links { display: none; }
+      .container { padding: 0 20px; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="site-header fade-in" style="--i:0">
-      <div class="logo">LR</div>
-      <div class="hero">
-        <h1 class="name">Levi Rosario</h1>
-        <p class="desc">Frontend/Full‑stack dev — Shopify, Next.js, Sanity CMS, WordPress. I build performant stores and integrations with clean code and practical UX for more than 3yrs.</p>
-      </div>
-    </header>
 
-    <section class="fade-in" style="--i:1">
-      <div class="skills">
-        <span class="skill">3 yrs experience</span>
-        <span class="skill">Shopify</span>
-        <span class="skill">Next.js</span>
-        <span class="skill">Sanity CMS</span>
-        <span class="skill">WordPress</span>
-        <span class="skill">APIs & Databases</span>
-      </div>
-    </section>
+  <!-- CURSOR -->
+  <div id="cursor">
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+  </div>
 
-    <section class="fade-in" style="--i:2">
-      <div class="projects-header">
-        <div class="projects-title">Selected Projects</div>
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-logo">LR</div>
+    <div class="nav-links">
+      <a href="#projects">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      Available for work
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-text">LEVI</div>
+    <div class="hero-eyebrow">Frontend / Full-stack Developer &nbsp;·&nbsp; Philippines</div>
+    <h1 class="hero-name">
+      <span class="line"><span>Levi</span></span>
+      <span class="line"><span><em>Rosario</em></span></span>
+    </h1>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        <strong>3+ years</strong> building performant stores and integrations with clean code and practical UX. Expert in <strong>Shopify</strong>, <strong>Next.js</strong>, <strong>Sanity CMS</strong> & <strong>WordPress</strong>.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">View Work</a>
+        <a href="#contact" class="btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <!-- duplicated for seamless loop -->
+      <span class="ticker-item"><span class="dot">◆</span> Shopify</span>
+      <span class="ticker-item"><span class="dot">◆</span> Next.js</span>
+      <span class="ticker-item"><span class="dot">◆</span> Sanity CMS</span>
+      <span class="ticker-item"><span class="dot">◆</span> WordPress</span>
+      <span class="ticker-item"><span class="dot">◆</span> React</span>
+      <span class="ticker-item"><span class="dot">◆</span> APIs & Databases</span>
+      <span class="ticker-item"><span class="dot">◆</span> TypeScript</span>
+      <span class="ticker-item"><span class="dot">◆</span> Tailwind CSS</span>
+      <span class="ticker-item"><span class="dot">◆</span> Shopify</span>
+      <span class="ticker-item"><span class="dot">◆</span> Next.js</span>
+      <span class="ticker-item"><span class="dot">◆</span> Sanity CMS</span>
+      <span class="ticker-item"><span class="dot">◆</span> WordPress</span>
+      <span class="ticker-item"><span class="dot">◆</span> React</span>
+      <span class="ticker-item"><span class="dot">◆</span> APIs & Databases</span>
+      <span class="ticker-item"><span class="dot">◆</span> TypeScript</span>
+      <span class="ticker-item"><span class="dot">◆</span> Tailwind CSS</span>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="projects-head reveal">
+        <div>
+          <div class="section-label">Selected Work</div>
+          <h2 class="section-title">Projects</h2>
+        </div>
         <div class="filters">
           <button class="filter-btn active" data-filter="all">All</button>
           <button class="filter-btn" data-filter="shopify">Shopify</button>
-          <button class="filter-btn" data-filter="nextjs">Next.js / Sanity</button>
+          <button class="filter-btn" data-filter="nextjs">Next.js</button>
+          <button class="filter-btn" data-filter="wordpress">WordPress</button>
+          <button class="filter-btn" data-filter="upcoming">Upcoming</button>
         </div>
       </div>
 
-      <div class="projects-grid" id="projects">
-        <!-- Each <a> is ready for your link (href="#") -->
-
-        <a class="project fade-in stagger" style="--i:3" data-platform="nextjs" href=https://www.ccdf.ch/ title="CCDF ">
-          <div>
-            <h4>CCDF </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:4" data-platform="nextjs" href="https://www.atmosnav.com/" title="Atmos ">
-          <div>
-            <h4>Atmos </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:5" data-platform="nextjs" href="https://www.supersonicship.com/" title="Supersonic ">
-          <div>
-            <h4>Supersonic </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:6" data-platform="nextjs" href="https://www.mir-capital.com/" title="Mir Capital ">
-          <div>
-            <h4>Mir Capital </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:7" data-platform="nextjs" href="https://ledgerrocket.com" title="Ledgers Rocket ">
-          <div>
-            <h4>Ledgers Rocket </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:8" data-platform="nextjs" href="https://www.topjewels.info/" title="Ninetyone group ">
-          <div>
-            <h4>Ninetyone group </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:9" data-platform="nextjs" href="https://www.jdspirits.uk/" title="JD Spirits ">
-          <div>
-            <h4>JD Spirits </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:10" data-platform="nextjs" href="#https://www.ocean-sea.com/ " title="Ocean ">
-          <div>
-            <h4>Ocean </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:11" data-platform="nextjs" href="https://www.sovamar.com/" title="Sovamar ">
-          <div>
-            <h4>Sovamar </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:12" data-platform="nextjs" href="https://www.ruthbergs.com/" title="Ruthberg ">
-          <div>
-            <h4>Ruthberg </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:13" data-platform="wordpress" href="https://berkeleytravel.co.uk/" title="Berkeley Wordpress ">
-          <div>
-            <h4>Berkeley Wordpress </h4>
-            <div class="meta"><span class="platform">WordPress</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:13" data-platform="nextjs" href="https://berkley-travel.vercel.app/" title="Berkeley react ">
-          <div>
-            <h4>Berkeley React </h4>
-            <div class="meta"><span class="platform">Nextjs</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:14" data-platform="nextjs" href="https://www.swmitchellcapital.com/" title="SWMC ">
-          <div>
-            <h4>SWMC </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:15" data-platform="nextjs" href="https://www.swmc-bridgefundservices.com/login" title="SWMC Portal ">
-          <div>
-            <h4>SWMC Portal </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launched</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:16" data-platform="nextjs" href="https://www.nohandesign.com/" title="Nohan Design ">
-          <div>
-            <h4>Nohan Design </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:17" data-platform="nextjs" href="https://www.esmovieproductions.com/" title="Ethan ">
-          <div>
-            <h4>Ethan </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:18" data-platform="nextjs" href="www.osprey-investors.com" title="Osprey ">
-          <div>
-            <h4>Osprey </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:19" data-platform="nextjs" href="https://www.singularity-group.com" title="Singularty">
-          <div>
-            <h4>Singularty </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:20" data-platform="nextjs" href="https://www.damuscapital.com/" title="Damus Capital">
-          <div>
-            <h4>Damus Capital</h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launched</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:21" data-platform="nextjs" href="https://goalsnotgigs.com" title="Goals ">
-          <div>
-            <h4>Goals </h4>
-            <div class="meta"><span class="platform">Next.js</span><span>•</span><span>Launched</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:22" data-platform="upcoming" href="https://www.mresidencesbudapest.com/?" title="Marrriot - Upcoming">
-          <div>
-            <h4>Marrriot - Upcoming Full Build</h4>
-            <div class="meta"><span class="platform">Upcoming</span><span>•</span><span>Planned</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:23" data-platform="upcoming" href="https://www.profinpartners.com" title="Profin - Upcoming">
-          <div>
-            <h4>Profin - Upcoming Redesign</h4>
-            <div class="meta"><span class="platform">Upcoming</span><span>•</span><span>Planned</span></div>
-          </div>
-        </a>
-
-        <!-- additional Shopify/other projects from list -->
-        <a class="project fade-in stagger" style="--i:24" data-platform="shopify" href="https://manufacture-vendome.myshopify.com/" title="Manufacture Shopify ">
-          <div>
-            <h4>Manufacture Shopify </h4>
-            <div class="meta"><span class="platform">Shopify</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:25" data-platform="shopify" href="#" title="Sole Shopify ">
-          <div>
-            <h4>Sole Shopify </h4>
-            <div class="meta"><span class="platform">Shopify</span><span>•</span><span>In Progress</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:26" data-platform="shopify" href="https://www.isufilaw.al/" title="ISUFI ">
-          <div>
-            <h4>ISUFI </h4>
-            <div class="meta"><span class="platform">Shopify</span><span>•</span><span>Launch</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:27" data-platform="shopify" href="https://www.steinridge.com/" title="Steinridge">
-          <div>
-            <h4>Steinridge</h4>
-            <div class="meta"><span class="platform">Shopify</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:28" data-platform="shopify" href="https://www.mxstudios.com/" title="Matrix Studios">
-          <div>
-            <h4>Matrix Studios</h4>
-            <div class="meta"><span class="platform">Shopify</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:29" data-platform="shopify" href="https://www.abrahamicinvestments.com/" title="Abrahamic">
-          <div>
-            <h4>Abrahamic</h4>
-            <div class="meta"><span class="platform">Shopify</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:31" data-platform="shopify" href="https://bushhallmusic.co.uk/" title="Bush hall - shopify">
-          <div>
-            <h4>Bush hall</h4>
-            <div class="meta"><span class="platform">Shopify</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:32" data-platform="nextjs" href="https://misternicemayfair.com" title="Mr nice">
-          <div>
-            <h4>Mr nice</h4>
-            <div class="meta"><span class="platform">Shopify</span></div>
-          </div>
-        </a>
-
-        <a class="project fade-in stagger" style="--i:33" data-platform="wordpress" href="https://rocketindustries.co.uk/" title="Rocket Industries">
-          <div>
-            <h4>Rocket Industries</h4>
-            <div class="meta"><span class="platform">WordPress</span></div>
-          </div>
-        </a>
-
+      <div class="projects-grid" id="projects-grid">
+        <!-- Populated by JS -->
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer class="fade-in" style="--i:35">Made by Levi • Contact By Email <a href="mailto:levidepsi@gmail.com">levidepsi@gmail.com</a> Or Number <a href="tel:+639284141394">+639284141394</a></footer>
-  </div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-label">About me</div>
+          <h2 class="section-title" style="margin-bottom:40px">Built on<br><em style="-webkit-text-stroke:1.5px var(--accent);-webkit-text-fill-color:transparent">craft.</em></h2>
+          <p>I'm a <strong>frontend & full-stack developer</strong> from the Philippines with over 3 years of experience building production-grade websites and e-commerce stores for international clients.</p>
+          <p>I specialise in <strong>Shopify theme development</strong>, <strong>Next.js applications</strong>, headless CMS setups with <strong>Sanity</strong>, and <strong>WordPress</strong> — always with a focus on performance, accessibility, and clean code.</p>
+          <p>From capital management firms to luxury brands and SaaS platforms — I deliver work that <strong>looks exceptional and runs fast.</strong></p>
+        </div>
+        <div class="stats-grid reveal reveal-delay-2">
+          <div class="stat">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num" id="count-projects">30+</div>
+            <div class="stat-label">Projects Shipped</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Tech Stacks</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Coffee Consumed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-inner reveal">
+        <div class="section-label" style="justify-content:center">Let's work together</div>
+        <div class="contact-big">Got a<br><em>project?</em></div>
+        <p style="color:var(--muted);font-size:15px;margin-bottom:40px;line-height:1.7">
+          Available for freelance projects, full-time roles, and long-term collaborations.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:levidepsi@gmail.com" class="contact-link">
+            <span class="icon">✉</span> levidepsi@gmail.com
+          </a>
+          <a href="tel:+639284141394" class="contact-link">
+            <span class="icon">✆</span> +63 928 414 1394
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Levi Rosario</span>
+    <span>Designed & built by Levi</span>
+  </footer>
 
   <script>
-    // Simple filtering
-    const buttons = document.querySelectorAll('.filter-btn');
-    const projects = document.querySelectorAll('.project');
-    buttons.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        buttons.forEach(b=>b.classList.remove('active'));
+    // ── CURSOR ──────────────────────────────────
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
+
+    // ── NAV SCROLL ──────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── PROJECT DATA ────────────────────────────
+    const projects = [
+      { title: 'CCDF', platform: 'nextjs', url: 'https://www.ccdf.ch/', status: 'live' },
+      { title: 'Atmos', platform: 'nextjs', url: 'https://www.atmosnav.com/', status: 'live' },
+      { title: 'Supersonic', platform: 'nextjs', url: 'https://www.supersonicship.com/', status: 'live' },
+      { title: 'Mir Capital', platform: 'nextjs', url: 'https://www.mir-capital.com/', status: 'live' },
+      { title: 'Ledger Rocket', platform: 'nextjs', url: 'https://ledgerrocket.com', status: 'live' },
+      { title: 'Ninetyone Group', platform: 'nextjs', url: 'https://www.topjewels.info/', status: 'live' },
+      { title: 'JD Spirits', platform: 'nextjs', url: 'https://www.jdspirits.uk/', status: 'live' },
+      { title: 'Ocean', platform: 'nextjs', url: 'https://www.ocean-sea.com/', status: 'live' },
+      { title: 'Sovamar', platform: 'nextjs', url: 'https://www.sovamar.com/', status: 'live' },
+      { title: 'Ruthberg', platform: 'nextjs', url: 'https://www.ruthbergs.com/', status: 'live' },
+      { title: 'Berkeley Travel', platform: 'wordpress', url: 'https://berkeleytravel.co.uk/', status: 'live' },
+      { title: 'Berkeley React', platform: 'nextjs', url: 'https://berkley-travel.vercel.app/', status: 'live' },
+      { title: 'SWMC', platform: 'nextjs', url: 'https://www.swmitchellcapital.com/', status: 'live' },
+      { title: 'SWMC Portal', platform: 'nextjs', url: 'https://www.swmc-bridgefundservices.com/login', status: 'live' },
+      { title: 'Nohan Design', platform: 'nextjs', url: 'https://www.nohandesign.com/', status: 'live' },
+      { title: 'Ethan Productions', platform: 'nextjs', url: 'https://www.esmovieproductions.com/', status: 'live' },
+      { title: 'Osprey Investors', platform: 'nextjs', url: 'https://www.osprey-investors.com', status: 'live' },
+      { title: 'Singularity Group', platform: 'nextjs', url: 'https://www.singularity-group.com', status: 'live' },
+      { title: 'Damus Capital', platform: 'nextjs', url: 'https://www.damuscapital.com/', status: 'live' },
+      { title: 'Goals Not Gigs', platform: 'nextjs', url: 'https://goalsnotgigs.com', status: 'live' },
+      { title: 'Marriott Budapest', platform: 'upcoming', url: 'https://www.mresidencesbudapest.com/', status: 'planned' },
+      { title: 'Profin Partners', platform: 'upcoming', url: 'https://www.profinpartners.com', status: 'planned' },
+      { title: 'Manufacture Vendome', platform: 'shopify', url: 'https://manufacture-vendome.myshopify.com/', status: 'live' },
+      { title: 'Sole', platform: 'shopify', url: '#', status: 'progress' },
+      { title: 'ISUFI Law', platform: 'shopify', url: 'https://www.isufilaw.al/', status: 'live' },
+      { title: 'Steinridge', platform: 'shopify', url: 'https://www.steinridge.com/', status: 'live' },
+      { title: 'Matrix Studios', platform: 'shopify', url: 'https://www.mxstudios.com/', status: 'live' },
+      { title: 'Abrahamic', platform: 'shopify', url: 'https://www.abrahamicinvestments.com/', status: 'live' },
+      { title: 'Bush Hall', platform: 'shopify', url: 'https://bushhallmusic.co.uk/', status: 'live' },
+      { title: 'Mr Nice Mayfair', platform: 'shopify', url: 'https://misternicemayfair.com', status: 'live' },
+      { title: 'Rocket Industries', platform: 'wordpress', url: 'https://rocketindustries.co.uk/', status: 'live' },
+    ];
+
+    const platformLabel = {
+      nextjs: 'Next.js',
+      shopify: 'Shopify',
+      wordpress: 'WordPress',
+      upcoming: 'Upcoming',
+    };
+
+    const statusClass = { live: 'status-live', progress: 'status-progress', planned: 'status-planned' };
+    const statusText = { live: 'Live', progress: 'In Progress', planned: 'Planned' };
+
+    function renderProjects(filter = 'all') {
+      const grid = document.getElementById('projects-grid');
+      const filtered = filter === 'all' ? projects : projects.filter(p => p.platform === filter);
+      grid.innerHTML = filtered.map((p, i) => `
+        <a class="project-card reveal" style="transition-delay:${(i % 3) * 0.08}s"
+           href="${p.url}" target="_blank" rel="noopener" data-platform="${p.platform}">
+          <span class="card-status ${statusClass[p.status]}">${statusText[p.status]}</span>
+          <div class="card-content">
+            <div class="card-num">${String(i + 1).padStart(2, '0')}</div>
+            <div class="card-title">${p.title}</div>
+          </div>
+          <div class="card-footer">
+            <span class="card-platform">${platformLabel[p.platform]}</span>
+            <span class="card-arrow">↗</span>
+          </div>
+        </a>
+      `).join('');
+      // re-observe
+      observeReveal();
+    }
+
+    renderProjects();
+
+    // ── FILTER BUTTONS ──────────────────────────
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const f = btn.dataset.filter;
-        projects.forEach(p=>{
-          const plat = p.dataset.platform || 'site';
-          if(f==='all' || plat===f) p.style.display='flex'; else p.style.display='none';
+        renderProjects(btn.dataset.filter);
+      });
+    });
+
+    // ── SCROLL REVEAL ───────────────────────────
+    function observeReveal() {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
         });
-      });
-    });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+    observeReveal();
 
-    // make links editable: click to prompt for real URL (for quick demo)
-    document.querySelectorAll('.project').forEach(item=>{
-      item.addEventListener('click', (e)=>{
-        // allow user to set real link by holding ctrl/shift for demo
-        if(e.metaKey||e.ctrlKey){
-          e.preventDefault();
-          const old = item.getAttribute('href')||'#';
-          const url = prompt('Enter URL for this project', old);
-          if(url) item.setAttribute('href', url);
-        }
-      })
+    // ── ANIMATED COUNT ──────────────────────────
+    function countUp(el, target, duration = 1000) {
+      let start = 0;
+      const step = target / (duration / 16);
+      const t = setInterval(() => {
+        start = Math.min(start + step, target);
+        el.textContent = Math.floor(start) + '+';
+        if (start >= target) clearInterval(t);
+      }, 16);
+    }
+    const countEl = document.getElementById('count-projects');
+    const countIO = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { countUp(countEl, 30); countIO.disconnect(); }
     });
-
-    // reveal animations on load
-    window.addEventListener('load', ()=>{
-      document.querySelectorAll('.fade-in').forEach(el=>{
-        // keep existing stagger if set via --i
-        const delay = parseFloat(getComputedStyle(el).getPropertyValue('--i'))||0;
-        el.style.animationDelay = (delay*0.06)+'s';
-        el.classList.add('visible');
-      });
-    });
+    countIO.observe(countEl);
   </script>
 </body>
 </html>
